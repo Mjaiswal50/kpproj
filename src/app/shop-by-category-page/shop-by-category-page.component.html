@@ -1,0 +1,31 @@
+<div style="font-size:24px; font-weight: bold;" class="text-primary">
+  Shop By Category
+</div>
+<div class="m-2" style="font-size: smaller;">
+  <div class="">Laptops</div>
+  <div class="">Desktops</div>
+  <div class="">Cameras</div>
+</div>
+
+<div class="row">
+  <form *ngIf="!this.showFormVar" >
+    <div class="form-group pt-2">
+      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Image Url">
+    </div>
+    <div class="form-group pt-2">
+      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Product Name">
+    </div>
+    <div class="form-group pt-2">
+      <textarea type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Product Description"></textarea>
+    </div>
+    <div class="form-group pt-2">
+      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Price">
+    </div>
+    <div class="form-group pt-2">
+      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Category">
+    </div>
+    <br>
+    <button class="btn m-1 btn-primary">Submit</button>
+  </form>
+
+</div>

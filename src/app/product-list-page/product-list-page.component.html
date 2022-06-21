@@ -1,0 +1,217 @@
+<div
+  style="font-size: 30px; font-weight: 600"
+  class="text-primary row justify-content-between">
+  <div class="col-4">Product List</div>
+  <div class="col-2 justify-content-end">
+    <span class="material-icons"> apps </span>
+    <span class="material-icons"> view_list </span>
+  </div>
+</div>
+<br />
+<div class="row p-2 border-bottom" *ngFor="let product of products">
+  <div class="col-3">
+    <img
+      src="{{product.image}}"
+      type="button"
+      class="img-thumbnail p-2 btn"
+      alt=""
+    />
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">{{product.title}}</h5>
+            <div
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </div>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-6">
+                <img src="{{product.image}}" class="img-fluid" alt="" />
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <div class="row">Color</div>
+                  <div class="row">
+                    <select
+                      class="form-select w-50"
+                      aria-label="Default select example"
+                    >
+                      <option selected value="Red">Red</option>
+                      <option value="Blue">Blue</option>
+                      <option value="Green">Green</option>
+                    </select>
+                  </div>
+                </div>
+                <br />
+                <div class="row">
+                  <div class="row">Qty</div>
+                  <div class="row"><input type="text" class="w-50" /></div>
+                </div>
+                <br />
+                <div class="row">
+                  <div class="row" style="font-weight: bold">Price</div>
+                  <div class="row" style="font-weight: bold">${{product.price}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+             {{product.description}}
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-9">
+    <div class="row justify-content-between">
+      <div class="col p-0">{{product.title}}</div>
+      <div class="col-1">
+        <span class="material-icons"> star_border </span>
+      </div>
+    </div>
+
+    <div class="row" style="font-size: 11px">
+      {{product.description}}
+    </div>
+    <div class="row mt-1" style="font-size: 14px">Price - ${{product.price}}</div>
+    <br>
+    <div class="row">
+      <button
+        data-toggle="modal"
+        data-target="#exampleModal"
+        class="col-3 btn btn-primary"
+      >
+        View Details
+      </button>
+    </div>
+  </div>
+</div>
+<div class="row d-flex flex-column border-bottom" *ngFor="let product of products">
+  <div class="col-6">
+    <div class="col">
+      <img
+        src="{{product.image}}"
+        type="button"
+        class="img-thumbnail p-2 btn"
+        alt=""
+      />
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">{{product.title}}</h5>
+              <div
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </div>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-6">
+                  <img src="{{product.image}}" class="img-fluid" alt="" />
+                </div>
+                <div class="col-6">
+                  <div class="row">
+                    <div class="row">Color</div>
+                    <div class="row">
+                      <select
+                        class="form-select w-50"
+                        aria-label="Default select example"
+                      >
+                        <option selected value="Red">Red</option>
+                        <option value="Blue">Blue</option>
+                        <option value="Green">Green</option>
+                      </select>
+                    </div>
+                  </div>
+                  <br />
+                  <div class="row">
+                    <div class="row">Qty</div>
+                    <div class="row"><input type="text" class="w-50" /></div>
+                  </div>
+                  <br />
+                  <div class="row">
+                    <div class="row" style="font-weight: bold">Price</div>
+                    <div class="row" style="font-weight: bold">${{product.price}}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+               {{product.description}}
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-primary">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="row justify-content-between">
+        <div class="col p-0">{{product.title}}</div>
+        <div class="col-1">
+          <span class="material-icons"> star_border </span>
+        </div>
+      </div>
+
+      <div class="row" style="font-size: 11px">
+        {{product.description}}
+      </div>
+      <div class="row mt-1" style="font-size: 14px">Price - ${{product.price}}</div>
+      <br>
+      <div class="row">
+        <button
+          data-toggle="modal"
+          data-target="#exampleModal"
+          class="col-3 btn btn-primary"
+        >
+          View Details
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
