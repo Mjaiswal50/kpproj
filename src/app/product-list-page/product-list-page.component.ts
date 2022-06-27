@@ -1,28 +1,48 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { HttpreqService } from '../services/httpreq.service';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { ProductsService } from '../services/products.service';
+
 
 @Component({
   selector: 'app-product-list-page',
   templateUrl: './product-list-page.component.html',
   styleUrls: ['./product-list-page.component.css']
 })
-export class ProductListPageComponent implements OnInit,OnChanges {
+export class ProductListPageComponent implements OnInit,AfterViewInit {
 products:any=[];
-productsObs:any;
-  constructor( private httpclient:HttpClient) {
+listVar:boolean=true;
+
+@ViewChild('gridContainer') gridContainer:any;
+
+  constructor( private httpclient:HttpClient , private productsService:ProductsService) {
 
   }
 
   ngOnInit(): void {
-    this.httpclient.get("https://fakestoreapi.com/products").subscribe((res: any)=>{
+  this.productsService.products.subscribe((res: any) => {
       console.log(res);
-     this.products=res;
-});
-
+      this.products = res;
+    });
 }
-  ngOnChanges(changes: SimpleChanges): void {
 
+  ngAfterViewInit(): void {
+    this.productsService.fetchProducts().subscribe(()=>{
+    }
+    )
   }
+
+
+  listViewSet(e:Event) {
+  // var $gridCont = this.gridContainer.nativeElement;
+  e.preventDefault();
+  // $gridCont.classList.add('list-view');
+  this.listVar=true;
+}
+  gridViewSet(e:Event) {
+  // var $gridCont = this.gridContainer.nativeElement;
+  e.preventDefault();
+  // $gridCont.classList.remove('list-view');
+  this.listVar=false;
+}
 
 }

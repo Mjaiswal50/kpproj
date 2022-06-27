@@ -10,6 +10,7 @@ import { ProductListPageComponent } from './product-list-page/product-list-page.
 import { ShoppingCartItemsComponent } from './shopping-cart-items/shopping-cart-items.component';
 import { YourCartPageComponent } from './your-cart-page/your-cart-page.component';
 import { ProductPageComponent } from './product-page/product-page.component';
+import { StrTruncatePipe } from './working-pipes/str-truncate.pipe';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { ProductPageComponent } from './product-page/product-page.component';
     ShoppingCartItemsComponent,
     YourCartPageComponent,
     ProductPageComponent,
+    StrTruncatePipe
   ],
   imports: [
     BrowserModule,
