@@ -20,7 +20,7 @@ listVar:boolean=true;
 
   ngOnInit(): void {
   this.productsService.products.subscribe((res: any) => {
-      console.log(res);
+    console.log("mj", Object.entries(res));
       this.products = res;
     });
 }
@@ -29,7 +29,7 @@ listVar:boolean=true;
     this.productsService.fetchProducts().subscribe(()=>{
     }
     )
-  }
+  } 
 
 
   listViewSet(e:Event) {
