@@ -12,36 +12,32 @@ export class ProductListPageComponent implements OnInit,AfterViewInit {
 products:any=[];
 listVar:boolean=true;
 
-@ViewChild('gridContainer') gridContainer:any;
-
   constructor( private httpclient:HttpClient , private productsService:ProductsService) {
 
   }
 
   ngOnInit(): void {
-  this.productsService.products.subscribe((res: any) => {
-    console.log("mj", Object.entries(res));
+    this.productsService.products.subscribe((res: any) => {
+      console.log("oninit", (res));
       this.products = res;
     });
+ 
 }
 
   ngAfterViewInit(): void {
-    this.productsService.fetchProducts().subscribe(()=>{
+    console.log("after");
+    this.productsService.fetchProducts().subscribe(() => {
     }
     )
   } 
 
 
   listViewSet(e:Event) {
-  // var $gridCont = this.gridContainer.nativeElement;
   e.preventDefault();
-  // $gridCont.classList.add('list-view');
   this.listVar=true;
 }
   gridViewSet(e:Event) {
-  // var $gridCont = this.gridContainer.nativeElement;
   e.preventDefault();
-  // $gridCont.classList.remove('list-view');
   this.listVar=false;
 }
 

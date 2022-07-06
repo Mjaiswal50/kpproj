@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { tap, take, switchMap, map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { tap, take, switchMap, map, catchError } from 'rxjs/operators';
 import { Product } from '../Models/product.model';
 
 interface ProductData {
@@ -30,9 +30,7 @@ export class ProductsService {
     // })
       map(resData => {
         const products:any = [];
-        console.log("resdata",Object.values(resData))
         for (const key of Object.values(resData)) {
-          console.log("xxx",key);
           products.push(key);
         }
         console.log("finalproducts",products);
@@ -42,23 +40,18 @@ export class ProductsService {
         this._products.next(products);
       })
     );
-  }
+  } 
   addProduct(productDetail:any){
     console.log("mj1",productDetail);
+    console.log("yy",this._products.value.length);
+    let newId = this._products.value.length + 1;
     return this.httpclient.post<any>('https://onlineshoppingapi-default-rtdb.firebaseio.com/allproducts.json',
-      productDetail
-    ).pipe(take(1), tap(res=>{
-      console.log(res,"res");
-      return res;
-    }))
-    // ).pipe(take(1), tap((Newproduct:any)=>{
-    //   Newproduct = Newproduct.json()
-    //   console.log(Newproduct,"mj2")
-    //  return this.fetchProducts().subscribe(oldProducts=>{
-    //   console.log("mj3",oldProducts);
-    //   return null;
-    //     // return this._products.next(oldProducts.concat(Newproduct));
-    //   })
-    // }));
+      { ...productDetail,id:newId}
+    ).pipe(take(1), tap((Newproduct:any)=>{
+     return this.fetchProducts().subscribe(oldProducts=>{
+      console.log("mj3",oldProducts);
+      return this._products.next(oldProducts);
+      })
+    }));
   }
 }

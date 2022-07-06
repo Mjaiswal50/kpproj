@@ -11,6 +11,7 @@ import { ShoppingCartItemsComponent } from './shopping-cart-items/shopping-cart-
 import { YourCartPageComponent } from './your-cart-page/your-cart-page.component';
 import { ProductPageComponent } from './product-page/product-page.component';
 import { StrTruncatePipe } from './working-pipes/str-truncate.pipe';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { StrTruncatePipe } from './working-pipes/str-truncate.pipe';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

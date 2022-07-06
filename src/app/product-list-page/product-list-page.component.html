@@ -2,18 +2,19 @@
   <button class="btn btn-primary btn-grid" (click)="listViewSet($event)">
     Grid View
   </button>
+  &nbsp;
   <button class="btn btn-primary btn-list" (click)="gridViewSet($event)">
     List View
   </button>
 </div>
-<div class="container" #gridContainer>
+<div class="container" >
   <div *ngIf="listVar" class="row row-cols-1 row-cols-md-2 g-4">
     <div class="col" *ngFor="let product of products">
       <div class="card">
         <img class="img-fluid" src="{{ product.image }}" style="height: 22rem" alt="Card image cap" />
         <div class="card-body">
           <h5 class="card-title text-truncate">{{ product.title }}</h5>
-          <p class="card-text text-truncate">{{ product.description }}</p>
+          <p class="card-text ">{{ product.description | strTruncate}}</p>
           <p class="card-text text-truncate">Price-${{ product.price }}</p>
           <button class="btn btn-primary" data-toggle="modal" type="button" [attr.data-target]="'#'+product.id">View
             Details</button>

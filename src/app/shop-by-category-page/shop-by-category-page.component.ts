@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ProductsService } from '../services/products.service';
 
 @Component({
@@ -8,29 +9,23 @@ import { ProductsService } from '../services/products.service';
 })
 export class ShopByCategoryPageComponent implements OnInit {
 @Input() showFormVar:any;
-formValue:any;
+  productSubmitForm: any;
   constructor(private productsService:ProductsService) {
-
   }
   callPostApi(){
-    this.productsService.addProduct(
-      {
-        "id": 5,
-        "title": "Mens Casual Slim Fit",
-        "price": 15.99,
-        "description": "The color could be slightly different between on the screen and in practice. / Please note that body builds vary by person, therefore, detailed size information should be reviewed below on the product description.",
-        "category": "men's clothing",
-        "image": "https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg",
-        "rating": {
-          "rate": 2.1,
-          "count": 430
-        }
-      }
-).subscribe((res)=>{
-alert(res);
+    console.log("productFormValue()", this.productSubmitForm.value);
+    this.productsService.addProduct(this.productSubmitForm.value).subscribe((res)=>{
+console.log(res,"callapi");
 })
   }
   ngOnInit(): void {
+    this.productSubmitForm=new FormGroup({
+      image: new FormControl(null, [Validators.required]),
+      title: new FormControl(null, [Validators.required]),
+      description: new FormControl(null, [Validators.required]),
+      price: new FormControl(null, [Validators.required]),
+      category: new FormControl(null, [Validators.required])
+    })
   }
 
 }
