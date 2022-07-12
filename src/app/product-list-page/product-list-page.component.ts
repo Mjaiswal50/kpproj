@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { CartsService } from '../services/carts.service';
 import { ProductsService } from '../services/products.service';
 
 
@@ -12,7 +13,7 @@ export class ProductListPageComponent implements OnInit,AfterViewInit {
 products:any=[];
 listVar:boolean=true;
 
-  constructor( private httpclient:HttpClient , private productsService:ProductsService) {
+  constructor( private httpclient:HttpClient , private productsService:ProductsService,private cartsService:CartsService) {
 
   }
 
@@ -31,6 +32,14 @@ listVar:boolean=true;
     )
   } 
 
+
+  addToCart(product:any){
+    this.cartsService.addToCart(product).subscribe(res=>{
+    console.log("Added Product Encrypt Name",res.name)
+      // this.cartsService.encryptUpdate(res.name);
+  }
+  );
+  }
 
   listViewSet(e:Event) {
   e.preventDefault();

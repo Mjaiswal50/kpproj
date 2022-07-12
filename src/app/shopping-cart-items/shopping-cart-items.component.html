@@ -2,44 +2,24 @@
   Shopping Cart - 3 items
 </div>
 <div class="m-2" style="font-size: smaller;">
-  <div class="pb-2 pt-2 row border-bottom">
-    <div class="col-2"><img src="../../assets/camera.jpg" class="img-thumbnail" alt=""></div>
-    <div class="col-3">Product Name 1</div>
-    <div class="col-2"><div class="btn-group" role="group" >
-      <button type="button" class="btn ">-</button>
-      <button type="button" class="btn border">1</button>
-      <button type="button" class="btn ">+</button>
-    </div></div>
-    <div class="col-3 text-center">$99.00</div>
-    <div class="col-2" style="font-weight:boldest" >X</div>
+  <div *ngFor="let cartItem of cartItems">
+      <div class="pb-2 pt-2 row border-bottom">
+        <div class="col-2"><img src="{{cartItem.image}}" class="img-thumbnail" alt=""></div>
+        <div class="col-3 text-truncate">{{cartItem.title}}</div>
+        <div class="col-2">
+          <div class="btn-group" role="group">
+            <button type="button" class="btn ">-</button>
+            <button type="button" class="btn border">1</button>
+            <button type="button" class="btn ">+</button>
+          </div>
+        </div>
+        <div class="col-3 text-center">${{cartItem.price}}</div>
+        <div class="col-2 btn" style="height:50%;font-weight:boldest" (click)="this.deleteItem(cartItem.uid)">X</div>
+      </div>
+  </div>
 
-
-  </div>
-  <div class="pb-2 pt-2 row border-bottom">
-    <div class="col-2"><img src="../../assets/camera.jpg" class="img-thumbnail" alt=""></div>
-    <div class="col-3">Product Name 1</div>
-    <div class="col-2"><div class="btn-group" role="group" >
-      <button type="button" class="btn ">-</button>
-      <button type="button" class="btn border">1</button>
-      <button type="button" class="btn ">+</button>
-    </div></div>
-    <div class="col-3 text-center">$99.00</div>
-    <div class="col-2" style="font-weight:boldest" >X</div>
-  </div>
-  <div class="pb-2 pt-2 row border-bottom">
-    <div class="col-2"><img src="../../assets/camera.jpg" class="img-thumbnail" alt=""></div>
-    <div class="col-3">Product Name 1</div>
-    <div class="col-2"><div class="btn-group" role="group" >
-      <button type="button" class="btn ">-</button>
-      <button type="button" class="btn border">1</button>
-      <button type="button" class="btn ">+</button>
-    </div></div>
-    <div class="col-3 text-center">$99.00</div>
-    <div class="col-2" style="font-weight:boldest" >X</div>
-  </div>
   <div class=" m-2 d-flex flex-row-reverse ">
-    <button class="btn btn-primary">Checkout</button>
-  <p class="p-2" style="font-weight: bold;"> Total - $297.00</p>
-
+    <button class="btn btn-primary h-50">Checkout</button>
+  <p class="p-2" style="font-weight: bold;"> Total - ${{this.totalCheckoutPrice}}</p>
   </div>
 </div>
