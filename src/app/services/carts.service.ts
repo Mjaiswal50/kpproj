@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { map, tap, take, switchMap } from 'rxjs/operators';
+import { map, tap, take, switchMap, filter } from 'rxjs/operators';
 import { Product } from '../models/product.model';
 
 @Injectable({
@@ -11,7 +11,7 @@ export class CartsService {
   private _cartProducts = new BehaviorSubject<Product[]>([]);
   constructor(private httpClient: HttpClient) { 
   }
-  tempObj:any="";
+
   get cartProducts() {
     return this._cartProducts.asObservable();
   }
@@ -28,24 +28,6 @@ export class CartsService {
         })
       })}));
   }
-
-  // encryptUpdate(data:any){
-  //   this.cartProducts.pipe(take(1)).subscribe(res => {
-  //     console.log("resconsole", data, res[0]);
-  //      this.tempObj = res[0];
-  //   })
-  //   return this.httpClient.put<any>(`https://onlineshoppingapi-default-rtdb.firebaseio.com/carts/${data}.json`, { ...this.tempObj ,uid:data}
-  //   ).subscribe(()=>{
-  //     console.log("winwin");
-  //   })
-  // //   console.log("xxxqq");
-  // //   this.cartProducts.pipe(take(1 )).subscribe(res=>{
-  // //   console.log("resconsole",data,res);
-  // //     const tempObj = res[0];
-  // //   const updatedObj={...res,uid:data};
-  // //    this._cartProducts.next(updatedObj);
-  // //  })
-  // }
 
   fetchProductsFromCart() {
       return this.httpClient.get<any>('https://onlineshoppingapi-default-rtdb.firebaseio.com/carts.json').pipe(
@@ -66,8 +48,11 @@ export class CartsService {
     return this.httpClient
       .delete(
         `https://onlineshoppingapi-default-rtdb.firebaseio.com/carts/${deletedItemName}.json`
-      )
-      // .pipe(
+      ).pipe(switchMap((res):any=>{
+       return this.cartProducts
+      }), take(1),map((cartProducts:any)=>{
+        this._cartProducts.next(cartProducts.filter((b:any) => b.uid !== deletedItemName))
+      }))
       //   switchMap((res:any) => {
       //   // this.bookings
       //     console.log("deleted response",res);
@@ -78,6 +63,6 @@ export class CartsService {
       //   tap((cartProducts:any) => {
       //     // this._cartProducts.next(cartProducts.filter((b: { name: any; }) => b.name !== deletedItemName));
       //   })
-      // );
+    //  );
   }
 }

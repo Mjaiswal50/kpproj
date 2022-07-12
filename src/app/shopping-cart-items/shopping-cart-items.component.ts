@@ -31,7 +31,6 @@ export class ShoppingCartItemsComponent implements OnInit ,AfterViewInit {
   }
 
   deleteItem(uid:any){
-    this.cartsService.cartProducts.subscribe(res=>console.log("target to find id",res));
     this.cartsService.deleteProductFromCart(uid).subscribe(res=>console.log("firsttsdelete",res))
   }
 }
