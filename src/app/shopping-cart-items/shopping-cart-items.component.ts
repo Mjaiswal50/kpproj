@@ -16,10 +16,11 @@ export class ShoppingCartItemsComponent implements OnInit ,AfterViewInit {
     this.cartsService.cartProducts.subscribe(res => {
       console.log("done",res)
       this.cartItems=res;
+      this.totalCheckoutPrice=0;
       for(let p of res) {
         this.totalCheckoutPrice += p.price;
       }
-      this.totalCheckoutPrice=Math.round(this.totalCheckoutPrice);
+      this.totalCheckoutPrice=(this.totalCheckoutPrice);
     });
     
     // this.totalCheckoutPrice=this.cartItems;

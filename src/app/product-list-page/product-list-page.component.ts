@@ -50,4 +50,8 @@ listVar:boolean=true;
   this.listVar=false;
 }
 
+filterbycategory(){
+  console.log(1234,this.products)
+}
+
 }

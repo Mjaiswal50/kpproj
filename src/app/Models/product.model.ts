@@ -7,6 +7,7 @@ export class Product {
         price: number,
         title: string,
         category: string,
-        uid ?: string
+        uid ?: string,
+        quanity?:number
     ) { }
 }

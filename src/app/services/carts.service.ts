@@ -8,8 +8,9 @@ import { Product } from '../models/product.model';
   providedIn: 'root'
 })
 export class CartsService {
+  encryptName:any;
   private _cartProducts = new BehaviorSubject<Product[]>([]);
-  constructor(private httpClient: HttpClient) { 
+  constructor(private httpClient: HttpClient) {
   }
 
   get cartProducts() {
@@ -17,20 +18,40 @@ export class CartsService {
   }
   addToCart(product: any) {
     return this.httpClient.post<any>('https://onlineshoppingapi-default-rtdb.firebaseio.com/carts.json', product
-    ).pipe(take(1), tap((NewproductName: any) => {
-      return this.fetchProductsFromCart().subscribe(oldProducts => {
-        let numz = oldProducts.length-1;
-        let newProducts = oldProducts[numz];
-       console.log("ColdProducts", oldProducts);
-        this.httpClient.put<any>('https://onlineshoppingapi-default-rtdb.firebaseio.com/carts/'+NewproductName.name+'.json', { ...newProducts, uid: NewproductName.name }
-        ).subscribe((res) => {
-          console.log("winwin",res);
+      ).pipe(take(1), tap((NewproductName: any) => {
+        return this.fetchProductsFromCart().subscribe(oldProducts => {
+          let numz = oldProducts.length - 1;
+          let newProducts = oldProducts[numz];
+          console.log("ColdProducts", oldProducts);
+          this.httpClient.put<any>('https://onlineshoppingapi-default-rtdb.firebaseio.com/carts/' + NewproductName.name + '.json', { ...newProducts, uid: NewproductName.name }
+          ).subscribe((res) => {
+            console.log("winwin", res);
+          })
         })
-      })}));
+      }));
   }
 
+  //   ).pipe(switchMap((res) => {
+  //     this.encryptName = res;
+  //     return this.cartProducts;
+      
+  //   }), take(1), tap((arrayz: any) => {
+  //     this._cartProducts.next(arrayz.concat({ ...product, uid: this.encryptName }))
+  //     // return this.fetchProductsFromCart().subscribe(oldProducts => {
+  //       let numz = arrayz.length - 1;
+  //     let newProducts = arrayz[numz];
+  //     console.log("ColdProducts", arrayz);
+  //     this.httpClient.put<any>('https://onlineshoppingapi-default-rtdb.firebaseio.com/carts/' + this.encryptName.name + '.json', { ...newProducts, uid: this.encryptName.name }
+  //       ).subscribe((res) => {
+  //         console.log("winwin", res);
+  //       })
+  //     })
+  //   // })
+  //   );
+  // }
+
   fetchProductsFromCart() {
-      return this.httpClient.get<any>('https://onlineshoppingapi-default-rtdb.firebaseio.com/carts.json').pipe(
+    return this.httpClient.get<any>('https://onlineshoppingapi-default-rtdb.firebaseio.com/carts.json').pipe(
       map(resData => {
         const cartProducts: any = [];
         for (const key of Object.values(resData)) {
@@ -44,25 +65,25 @@ export class CartsService {
       })
     );
   }
-  deleteProductFromCart(deletedItemName:any){
+  deleteProductFromCart(deletedItemName: any) {
     return this.httpClient
       .delete(
         `https://onlineshoppingapi-default-rtdb.firebaseio.com/carts/${deletedItemName}.json`
-      ).pipe(switchMap((res):any=>{
-       return this.cartProducts
-      }), take(1),map((cartProducts:any)=>{
-        this._cartProducts.next(cartProducts.filter((b:any) => b.uid !== deletedItemName))
+      ).pipe(switchMap((res): any => {
+        return this.cartProducts
+      }), take(1), map((cartProducts: any) => {
+        this._cartProducts.next(cartProducts.filter((b: any) => b.uid !== deletedItemName))
       }))
-      //   switchMap((res:any) => {
-      //   // this.bookings
-      //     console.log("deleted response",res);
-      //  return res;
-      //   }
-      //   ),
-      //   take(1),
-      //   tap((cartProducts:any) => {
-      //     // this._cartProducts.next(cartProducts.filter((b: { name: any; }) => b.name !== deletedItemName));
-      //   })
+    //   switchMap((res:any) => {
+    //   // this.bookings
+    //     console.log("deleted response",res);
+    //  return res;
+    //   }
+    //   ),
+    //   take(1),
+    //   tap((cartProducts:any) => {
+    //     // this._cartProducts.next(cartProducts.filter((b: { name: any; }) => b.name !== deletedItemName));
+    //   })
     //  );
   }
 }

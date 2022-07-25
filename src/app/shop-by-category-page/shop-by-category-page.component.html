@@ -2,9 +2,10 @@
   Shop By Category
 </div>
 <div class="m-2" style="font-size: smaller;">
-  <div class="">Laptops</div>
-  <div class="">Desktops</div>
-  <div class="">Cameras</div>
+  <ng-container>
+    <div class="cursorPointer" (click)="callProductFilter(categoryName)" *ngFor="let categoryName of categories">{{categoryName}}</div>
+  </ng-container>
+  <div class="cursorPointer btn btn-primary mt-2" (click)="callProductFilter('reset')" >Reset</div>
 </div>
 
 <div class="row">

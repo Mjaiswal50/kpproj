@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { tap, take, switchMap, map, catchError } from 'rxjs/operators';
+import { async, BehaviorSubject, Observable, throwError } from 'rxjs';
+import { tap, take, switchMap, map, catchError, groupBy } from 'rxjs/operators';
 import { Product } from '../models/product.model';
 
 interface ProductData {
@@ -18,22 +18,28 @@ interface ProductData {
 export class ProductsService {
 
   private _products = new BehaviorSubject<Product[]>([]);
-
+ arr:any=[];  
+ filtered=false;
+ categoryArray = new BehaviorSubject<any>([]);
   constructor(private httpclient: HttpClient) { }
   get products() {
    return this._products.asObservable();
 }
   fetchProducts(){
-    return this.httpclient.get("https://onlineshoppingapi-default-rtdb.firebaseio.com/allproducts.json").pipe(
-    //   take(1), tap(res => {
-    //   this._products.next(res);
-    // })
-      map(resData => {
+    return this.httpclient.get("https://onlineshoppingapi-default-rtdb.firebaseio.com/allproducts.json").pipe(map(resData => {
         const products:any = [];
         for (const key of Object.values(resData)) {
           products.push(key);
         }
         console.log("finalproducts",products);
+      const groupByCategory = products.reduce((group: any, product: any) => {
+        const { category } = product;
+        group[category] = group[category] ?? [];
+        group[category].push(product);
+        return group;
+      }, {});
+      console.log("groupByCat",Object.keys(groupByCategory));
+      this.categoryArray.next(Object.keys(groupByCategory));
         return products;
       }),
       tap(products => {
@@ -49,10 +55,33 @@ export class ProductsService {
       { ...productDetail, id: newId }
     ).pipe(take(1), tap((Newproduct:any)=>{
       console.log(Newproduct,"mj2")
-     return this.fetchProducts().subscribe(oldProducts=>{
-      console.log("mj3",oldProducts);
-      return this._products.next(oldProducts);
+     return this.fetchProducts().subscribe(newProducts=>{
+      console.log("mj3",newProducts);
+      // return this._products.next(newProducts);
       })
     }));
   }
+
+  filterCategory(catName:any){
+    this.fetchProducts().subscribe(res => {
+      const groupByCategory = res.reduce((group: any, product: any) => {
+        const { category } = product;
+        group[category] = group[category] ?? [];
+        group[category].push(product);
+        return group;
+      }, {});
+      console.log("groupByCat",(groupByCategory));
+      let arrz = Object.keys(groupByCategory);
+      for (let categoryz of arrz ){
+        if (categoryz == catName){
+          console.log("insides", groupByCategory[categoryz],categoryz);
+          this._products.next(groupByCategory[categoryz]);
+          console.log("xx");
+        }
+      }
+
+
+    this.arr=[];
+  })
+}
 }
