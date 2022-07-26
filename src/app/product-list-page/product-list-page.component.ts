@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { CartsService } from '../services/carts.service';
 import { ProductsService } from '../services/products.service';
-
-
+import { map, tap, take, switchMap, filter } from 'rxjs/operators';
+/* @ts-ignore */
 @Component({
   selector: 'app-product-list-page',
   templateUrl: './product-list-page.component.html',
@@ -39,22 +39,15 @@ export class ProductListPageComponent implements OnInit, AfterViewInit {
 
 
   addToCart(product: any) {
-    // @ts-ignore: Object is possibly 'null'.
+    /* @ts-ignore */
     this.cartsService.fetchProductsFromCart().subscribe((res:any)=>{
-      // @ts-ignore: Object is possibly 'null'.
-      // this.cartsService.addToCart(product).subscribe((cart: any) => {
-      //   console.log("Added Product Encrypt Name", cart.name)
-      //   // this.cartsService.encryptUpdate(res.name);
-      // }
-      // )
+      /* @ts-ignore */
+      this.cartsService.addToCart(product).subscribe((cart: any) => {
+        console.log("Added Product Encrypt Name", cart.name);
+        
+      }
+      )
     });
-     // @ts-ignore: Object is possibly 'null'.
-    this.cartsService.addToCart(product).subscribe((cart: any) => {
-      console.log("Added Product Encrypt Name", cart.name)
-      
-      // this.cartsService.encryptUpdate(res.name);
-    }
-    )
   }
 
   listViewSet(e: Event) {

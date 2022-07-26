@@ -77,9 +77,12 @@ export class CartsService {
     return this.httpClient.get<any>('https://onlineshoppingapi-default-rtdb.firebaseio.com/carts.json').pipe(
       map(resData => {
         const cartProducts: any =   [];
-        for (const value of Object.values(resData)) {
-          cartProducts.push(value);
+        if (resData){
+          for (const value of Object.values(resData)) {
+            cartProducts.push(value);
+          }
         }
+       
         console.log("finalcartproducts", cartProducts);
         return cartProducts;
       }),
