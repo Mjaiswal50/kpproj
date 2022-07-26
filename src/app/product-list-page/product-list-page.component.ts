@@ -42,15 +42,16 @@ export class ProductListPageComponent implements OnInit, AfterViewInit {
     // @ts-ignore: Object is possibly 'null'.
     this.cartsService.fetchProductsFromCart().subscribe((res:any)=>{
       // @ts-ignore: Object is possibly 'null'.
-      this.cartsService.addToCart(product).subscribe((cart:any)=> {
-        console.log("Added Product Encrypt Name", cart.name)
-        // this.cartsService.encryptUpdate(res.name);
-      }
-      )
+      // this.cartsService.addToCart(product).subscribe((cart: any) => {
+      //   console.log("Added Product Encrypt Name", cart.name)
+      //   // this.cartsService.encryptUpdate(res.name);
+      // }
+      // )
     });
      // @ts-ignore: Object is possibly 'null'.
     this.cartsService.addToCart(product).subscribe((cart: any) => {
       console.log("Added Product Encrypt Name", cart.name)
+      
       // this.cartsService.encryptUpdate(res.name);
     }
     )

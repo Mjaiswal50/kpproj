@@ -42,7 +42,7 @@ export class CartsService {
           let numz = oldProducts.length - 1;
           let newProducts = oldProducts[numz];
           console.log("ColdProducts", oldProducts);
-          this.httpClient.put<any>('https://onlineshoppingapi-default-rtdb.firebaseio.com/carts/' + NewproductName.name + '.json', { ...newProducts, uid: NewproductName.name, quantity: 0 }
+          this.httpClient.put<any>('https://onlineshoppingapi-default-rtdb.firebaseio.com/carts/' + NewproductName.name + '.json', { ...newProducts, uid: NewproductName.name, quantity: 1 }
           ).subscribe((res) => {
             console.log("winwin", res);
           })
