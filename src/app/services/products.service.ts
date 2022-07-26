@@ -43,6 +43,7 @@ export class ProductsService {
         return products;
       }),
       tap(products => {
+        console.log("theend",products);
         this._products.next(products);
       })
     );
@@ -50,15 +51,21 @@ export class ProductsService {
   addProduct(productDetail:any){
     console.log("mj1",productDetail);
     console.log("yy",this._products.value.length);
-    let newId = this._products.value.length + 1;
     return this.httpclient.post<any>('https://onlineshoppingapi-default-rtdb.firebaseio.com/allproducts.json',
-      { ...productDetail, id: newId }
+      { ...productDetail }
     ).pipe(take(1), tap((Newproduct:any)=>{
-      console.log(Newproduct,"mj2")
-     return this.fetchProducts().subscribe(newProducts=>{
-      console.log("mj3",newProducts);
-      // return this._products.next(newProducts);
+      console.log(Newproduct,"mj2");
+      let newId = this._products.value.length;
+      let newProducts = {...productDetail};
+      this.httpclient.put<any>('https://onlineshoppingapi-default-rtdb.firebaseio.com/allproducts/' + Newproduct.name + '.json', { ...newProducts, uid: Newproduct.name, id: newId }
+      ).subscribe((res) => {
+        console.log("winwin", res);
+        this.fetchProducts().subscribe(newProducts => {
+          console.log("mj3", newProducts);
+          // return this._products.next(newProducts);
+        })
       })
+ 
     }));
   }
 

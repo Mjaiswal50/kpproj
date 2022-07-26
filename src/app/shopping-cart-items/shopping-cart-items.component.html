@@ -8,9 +8,9 @@
         <div class="col-3 text-truncate">{{cartItem.title}}</div>
         <div class="col-2">
           <div class="btn-group" role="group">
-            <button type="button" class="btn ">-</button>
-            <button type="button" class="btn border">1</button>
-            <button type="button" class="btn ">+</button>
+            <button type="button" (click)="dec(cartItem)" class="btn ">-</button>
+            <button type="button" class="btn border">{{cartItem.quantity}}</button>
+            <button type="button" (click)="inc(cartItem)" class="btn ">+</button>
           </div>
         </div>
         <div class="col-3 text-center">${{cartItem.price}}</div>

@@ -30,7 +30,16 @@ export class ShoppingCartItemsComponent implements OnInit ,AfterViewInit {
       console.log("donefetchingcartsi", res);
     });
   }
-
+  inc(item:any){
+    this.cartsService.incrCartItem(item).subscribe(res=>{
+      this.cartsService.fetchProductsFromCart().subscribe();
+    })
+  }
+  dec(item:any){
+    this.cartsService.decrCartItem(item).subscribe(res => {
+      this.cartsService.fetchProductsFromCart().subscribe();
+    })
+  }
   deleteItem(uid:any){
     this.cartsService.deleteProductFromCart(uid).subscribe(res=>console.log("firsttsdelete",res))
   }
