@@ -12,7 +12,7 @@ import { map, tap, take, switchMap, filter } from 'rxjs/operators';
 export class ProductListPageComponent implements OnInit, AfterViewInit {
   products: any = [];
   listVar: boolean = true;
-
+  qValue:any=1;
   constructor(private httpclient: HttpClient, private productsService: ProductsService, private cartsService: CartsService) {
   }
 
@@ -38,16 +38,22 @@ export class ProductListPageComponent implements OnInit, AfterViewInit {
   }
 
 
-  addToCart(product: any) {
+  addToCart(product: any,quantity:any) {
+    this.cartsService.DisableBtn.next(false)
+    setTimeout(()=>{
+      this.cartsService.DisableBtn.next(true)
+    },2000);
+    console.log("qvalue",this.qValue)
     /* @ts-ignore */
     this.cartsService.fetchProductsFromCart().subscribe((res:any)=>{
       /* @ts-ignore */
-      this.cartsService.addToCart(product).subscribe((cart: any) => {
+      this.cartsService.addToCart(product,quantity).subscribe((cart: any) => {
         console.log("Added Product Encrypt Name", cart.name);
-        
+         
       }
       )
     });
+    this.qValue=1;
   }
 
   listViewSet(e: Event) {

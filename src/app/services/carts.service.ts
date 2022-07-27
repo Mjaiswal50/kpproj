@@ -12,7 +12,10 @@ export class CartsService {
   flag = false;
   private _cartProducts = new BehaviorSubject<Product[]>([]);
   oldCartProduct: any;
-  incrProduct: any
+  incrProduct: any;
+  DisableBtn: any = new BehaviorSubject<any>(true);
+  totalValue: any = new BehaviorSubject<any>(0);
+  totalCartItems: any = new BehaviorSubject<any>(0);
   constructor(private httpClient: HttpClient) {
   }
 
@@ -20,13 +23,13 @@ export class CartsService {
     return this._cartProducts.asObservable();
   }
    // @ts-ignore: Object is possibly 'null'.
-  addToCart(product: any) {
+  addToCart(product: any,nValue:any) {
     this.flag = true;
     console.log("direct", this._cartProducts.value);
     for (let key of this._cartProducts.value) {
       if (key.title == product.title) {
         this.flag = false;
-        let nq = key.quantity+1;
+        let nq = key.quantity + nValue;
         this.incrProduct = { ...key,quantity:nq};
         this.httpClient.put<any>('https://onlineshoppingapi-default-rtdb.firebaseio.com/carts/' + key.uid + '.json', this.incrProduct 
         ).pipe(take(1)).subscribe(res=>{
@@ -42,7 +45,7 @@ export class CartsService {
           let numz = oldProducts.length - 1;
           let newProducts = oldProducts[numz];
           console.log("ColdProducts", oldProducts);
-          this.httpClient.put<any>('https://onlineshoppingapi-default-rtdb.firebaseio.com/carts/' + NewproductName.name + '.json', { ...newProducts, uid: NewproductName.name, quantity: 1 }
+          this.httpClient.put<any>('https://onlineshoppingapi-default-rtdb.firebaseio.com/carts/' + NewproductName.name + '.json', { ...newProducts, uid: NewproductName.name, quantity: nValue }
           ).subscribe((res) => {
             console.log("winwin", res);
           })
@@ -86,7 +89,14 @@ export class CartsService {
         console.log("finalcartproducts", cartProducts);
         return cartProducts;
       }),
-      tap(cartProducts => {
+      tap(cartProducts => {   
+        console.log("hardz",cartProducts);
+        let totalCheckoutPrice = 0;
+        for (let p of cartProducts) {
+          totalCheckoutPrice += p.price * p.quantity;
+        }
+        this.totalValue.next(totalCheckoutPrice);
+        this.totalCartItems.next(cartProducts.length);
         this._cartProducts.next(cartProducts);
       })
     );

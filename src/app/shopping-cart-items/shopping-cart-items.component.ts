@@ -9,7 +9,7 @@ import { CartsService } from '../services/carts.service';
 export class ShoppingCartItemsComponent implements OnInit ,AfterViewInit {
   cartItems:any;
   totalCheckoutPrice:any=0;
-
+  disableVar:any=true;
   constructor(private cartsService: CartsService) { }
 
   ngOnInit(): void {
@@ -18,11 +18,15 @@ export class ShoppingCartItemsComponent implements OnInit ,AfterViewInit {
       this.cartItems=res;
       this.totalCheckoutPrice=0;
       for(let p of res) {
-        this.totalCheckoutPrice += p.price;
+        this.totalCheckoutPrice += p.price*p.quantity;
       }
       this.totalCheckoutPrice=(this.totalCheckoutPrice);
+      if(this.totalCheckoutPrice==0){
+        this.disableVar=true;
+      }else{
+        this.disableVar = false;
+      }
     });
-    
     // this.totalCheckoutPrice=this.cartItems;
   }
   ngAfterViewInit(){
