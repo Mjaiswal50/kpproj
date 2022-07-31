@@ -1,9 +1,9 @@
-<div style="font-size:30px; font-weight: 600;" class="text-primary text-centerd">
-  Shopping Cart - 3 items
+<div style="font-size:32px; font-weight: bold;" class="text-primary text-centerd">
+  Shopping Cart - {{this.cartItems.length}} items
 </div>
-<div class="m-2" style="font-size: smaller;">
-  <ng-container *ngIf="cartItems.length!==0" >
-  <div *ngFor="let cartItem of cartItems">
+<div class="m-2 mt-4" style="font-size: smaller;">
+  <ng-container *ngIf="cartItems.length!==0">
+    <div *ngFor="let cartItem of cartItems">
       <div class="pb-2 pt-2 row border-bottom">
         <div class="col-2"><img src="{{cartItem.image}}" class="img-thumbnail" alt=""></div>
         <div class="col-3 text-truncate">{{cartItem.title}}</div>
@@ -17,18 +17,18 @@
         <div class="col-3 text-center">${{cartItem.quantity*cartItem.price}}</div>
         <div class="col-2 btn" style="height:50%;font-weight:boldest" (click)="this.deleteItem(cartItem.uid)">X</div>
       </div>
-  </div>
+    </div>
   </ng-container>
- 
+
   <ng-container *ngIf="cartItems.length==0">
-   <div>
-    <h3 class="p-5 text-warning" >
-      Your Cart is Empty! ('.') 
-    </h3>
-   </div>
+    <div>
+      <h3 class="p-5 text-warning">
+        Your Cart is Empty! ('.')
+      </h3>
+    </div>
   </ng-container>
   <div class=" m-2 d-flex flex-row-reverse ">
     <button class="btn btn-primary h-50" [disabled]="this.disableVar">Checkout</button>
-  <p class="p-2" style="font-weight: bold;"> Total - ${{this.totalCheckoutPrice}}</p>
+    <p class="p-2" style="font-weight: bold;"> Total - ${{this.totalCheckoutPrice}}</p>
   </div>
 </div>

@@ -3,6 +3,7 @@ import { AfterViewInit, Component, OnInit, SimpleChanges, ViewChild } from '@ang
 import { CartsService } from '../services/carts.service';
 import { ProductsService } from '../services/products.service';
 import { map, tap, take, switchMap, filter } from 'rxjs/operators';
+import { AlertingService } from '../services/alerting.service';
 /* @ts-ignore */
 @Component({
   selector: 'app-product-list-page',
@@ -12,8 +13,9 @@ import { map, tap, take, switchMap, filter } from 'rxjs/operators';
 export class ProductListPageComponent implements OnInit, AfterViewInit {
   products: any = [];
   listVar: boolean = true;
-  qValue:any=1;
-  constructor(private httpclient: HttpClient, private productsService: ProductsService, private cartsService: CartsService) {
+  qValue: any = 1;
+  // z=position: absolute; top: 0; right: 0;
+  constructor(private httpclient: HttpClient, private productsService: ProductsService, private cartsService: CartsService, private alertingService: AlertingService) {
   }
 
 
@@ -32,28 +34,27 @@ export class ProductListPageComponent implements OnInit, AfterViewInit {
     this.productsService.fetchProducts().subscribe(() => {
     }
     )
-    //     this.cartsService.fetchProductsFromCart().subscribe(res => {
-    //   console.log("doubt1", res);
-    // })
+
   }
 
 
-  addToCart(product: any,quantity:any) {
-    this.cartsService.DisableBtn.next(false)
-    setTimeout(()=>{
+  addToCart(product: any, quantity: any) {
+    this.cartsService.DisableBtn.next(false);
+    this.alertingService.success("Done ('.')", "Product Successfully Added To Cart", 2);
+    setTimeout(() => {
       this.cartsService.DisableBtn.next(true)
-    },2000);
-    console.log("qvalue",this.qValue)
+    }, 2000);
+    console.log("qvalue", this.qValue)
     /* @ts-ignore */
-    this.cartsService.fetchProductsFromCart().subscribe((res:any)=>{
+    this.cartsService.fetchProductsFromCart().subscribe((res: any) => {
       /* @ts-ignore */
-      this.cartsService.addToCart(product,quantity).subscribe((cart: any) => {
+      this.cartsService.addToCart(product, quantity).subscribe((cart: any) => {
         console.log("Added Product Encrypt Name", cart.name);
-         
+
       }
       )
     });
-    this.qValue=1;
+    this.qValue = 1;
   }
 
   listViewSet(e: Event) {
